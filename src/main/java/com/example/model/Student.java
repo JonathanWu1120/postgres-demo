@@ -1,8 +1,10 @@
 package com.example.model;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+@Data
 @Entity
 @Table(name = "students")
 public class Student {
@@ -12,23 +14,15 @@ public class Student {
     private long id;
 
     @Column(name = "name")
-    @Getter
-    @Setter
     private String name;
 
     @Column(name = "dob")
-    @Getter
-    @Setter
     private String DOB ;
 
     @Column(name = "joining_date")
-    @Getter
-    @Setter
     private String joiningDate;
 
     @Column(name = "class")
-    @Getter
-    @Setter
     private String CLASS;
 
 
