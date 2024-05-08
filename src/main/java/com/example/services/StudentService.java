@@ -22,6 +22,24 @@ public class StudentService {
         return this.studentRepository.findAll();
     }
 
+    public Student getStudentById(Long id) {
+        return studentRepository.findStudentById(id).orElseThrow(
+                () -> new IllegalStateException("student ID not found")
+        );
+    }
+
+    public Student getStudentByName(String name) {
+        return this.studentRepository.findStudentByName(name).orElseThrow(
+                () -> new IllegalStateException("student name not found")
+        );
+    }
+
+    public Student getStudentByClass(String className) {
+        return this.studentRepository.findStudentByCurrentClass(className).orElseThrow(
+                () -> new IllegalStateException("student class not found")
+        );
+    }
+
     public void addStudent(Student student) {
         Optional<Student> optionalStudent = studentRepository.findStudentByDOB(student.getDob());
         if (optionalStudent.isPresent()) {
