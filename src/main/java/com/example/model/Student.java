@@ -1,40 +1,84 @@
 package com.example.model;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-@Data
 @Entity
-@Table(name = "students")
+@Table
 public class Student {
 
+    // generate the id
+    // this is use in when adding a new Student
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "name")
+    @SequenceGenerator(
+            name = "student_index",
+            sequenceName = "student_index",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "student_index"
+    )
+    private Long id;
     private String name;
-
-    @Column(name = "dob")
-    private String DOB ;
-
-    @Column(name = "joining_date")
+    private String dob;
     private String joiningDate;
-
-    @Column(name = "class")
-    private String CLASS;
-
+    private String currentClass;
 
     public Student() {
-
     }
 
-    public Student(String name, String DOB, String joiningDate, String CLASS) {
-        super();
+    public Student(Long id, String name, Integer age, String dob, String joiningDate, String currentClass) {
+        this.id = id;
         this.name = name;
-        this.DOB = DOB;
+        this.dob = dob;
         this.joiningDate = joiningDate;
-        this.CLASS = CLASS;
+        this.currentClass = currentClass;
+    }
+
+    public Student(String name, Integer age, String dob, String joiningDate, String currentClass) {
+        this.name = name;
+        this.dob = dob;
+        this.joiningDate = joiningDate;
+        this.currentClass = currentClass;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public String getJoiningDate() {
+        return joiningDate;
+    }
+
+    public void setJoiningDate(String joiningDate) {
+        this.joiningDate = joiningDate;
+    }
+
+    public String getCurrentClass() {
+        return currentClass;
+    }
+
+    public void setCurrentClass(String currentClass) {
+        this.currentClass = currentClass;
     }
 }

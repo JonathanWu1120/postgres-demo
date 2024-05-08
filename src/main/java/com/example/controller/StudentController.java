@@ -1,63 +1,47 @@
 package com.example.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import com.example.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.repository.StudentRepository;
 import com.example.model.Student;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping(path = "api/students")
 public class StudentController {
+    private final StudentService studentService;
+
     @Autowired
-    private StudentRepository studentRepository;
+    public StudentController(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
-    @GetMapping("/students")
+    @GetMapping(path = "allStudents")
     public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+        return this.studentService.getStudent();
     }
 
-    //create student
-    @PostMapping("/students")
-    public Student createStudent(@RequestBody Student student) {
-        return studentRepository.save(student);
+    @PostMapping(path = "addStudent")
+    public void addStudent(@RequestBody Student student) {
+        this.studentService.addStudent(student);
     }
 
-    //get by id
-    @GetMapping("/students/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable long id) {
-        Student student = studentRepository.findById(id)
-                .orElseThrow();
-        return ResponseEntity.ok(student);
+    @DeleteMapping(path = "delete/{studentId}")
+    public void deleteStudent(@PathVariable("studentId") Long id) {
+        studentService.deleteStudent(id);
     }
 
-    @PutMapping("/students/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable long id, @RequestBody Student student) {
-        Student student1 = studentRepository.findById(id)
-                .orElseThrow();
-        student1.setName(student.getName());
-        student1.setDOB(student.getDOB());
-        student1.setJoiningDate(student.getJoiningDate());
-        student1.setCLASS(student.getCLASS());
-        Student updatedStudent = studentRepository.save(student1);
-        return ResponseEntity.ok(updatedStudent);
+    @PutMapping(path = "updateStudent/{studentId}")
+    public void upDateStudent
+            (@PathVariable("studentId") Long id,
+             @RequestParam(required = false) String name,
+             @RequestParam(required = false) String dob,
+             @RequestParam(required = false) String joiningDate,
+             @RequestParam(required = false) String currentClass) {
+        studentService.updateStudent(id, name, dob, joiningDate, currentClass);
     }
-
-    @DeleteMapping("/students/{id}")
-    public ResponseEntity<Map<String,Boolean>> deleteStudent(@PathVariable long id) {
-        Student student = studentRepository.findById(id)
-                .orElseThrow();
-        studentRepository.delete(student);
-        Map<String,Boolean> response = new HashMap<>();
-        response.put("deleted",true);
-        return ResponseEntity.ok(response);
-    }
-
-
-
 }
+
