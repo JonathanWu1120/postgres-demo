@@ -2,6 +2,7 @@ package com.example.services;
 
 import com.example.model.Student;
 import com.example.repository.StudentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,9 +38,10 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
+    @Transactional
     public void updateStudent(Long id, String name, String dob, String joiningDate, String currentClass) {
-        Student student = studentRepository.findById(id).orElseThrow(
-                () -> new IllegalStateException("syudent not found")
+        Student student = studentRepository.findStudentById(id).orElseThrow(
+                () -> new IllegalStateException("student not found")
         );
 
         if (name != null && !name.isEmpty()) {
