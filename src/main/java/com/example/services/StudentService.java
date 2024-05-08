@@ -19,7 +19,7 @@ public class StudentService {
     }
 
     public List<Student> getStudent() {
-        return this.studentRepository.findAll();
+        return (List<Student>) this.studentRepository.findAll();
     }
 
     public Student getStudentById(Long id) {
@@ -28,16 +28,12 @@ public class StudentService {
         );
     }
 
-    public Student getStudentByName(String name) {
-        return this.studentRepository.findStudentByName(name).orElseThrow(
-                () -> new IllegalStateException("student name not found")
-        );
+    public List<Student> getStudentByName(String name) {
+        return (List<Student>) this.studentRepository.findAllByName(name);
     }
 
-    public Student getStudentByClass(String className) {
-        return this.studentRepository.findStudentByCurrentClass(className).orElseThrow(
-                () -> new IllegalStateException("student class not found")
-        );
+    public List<Student> getStudentByClass(String className) {
+        return (List<Student>) this.studentRepository.findAllByCurrentClass(className);
     }
 
     public void addStudent(Student student) {
@@ -51,7 +47,7 @@ public class StudentService {
     public void deleteStudent(Long id) {
         boolean find = studentRepository.existsById(id);
         if (!find) {
-            throw new IllegalStateException("student not find");
+            throw new IllegalStateException("student not found");
         }
         studentRepository.deleteById(id);
     }

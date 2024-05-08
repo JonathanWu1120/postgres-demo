@@ -30,12 +30,12 @@ public class StudentController {
     }
 
     @GetMapping(path = "findStudentName/{studentName}")
-    public Student findStudentName(@PathVariable     String studentName) {
+    public List<Student> findStudentName(@PathVariable     String studentName) {
         return this.studentService.getStudentByName(studentName);
     }
 
     @GetMapping(path = "findStudentClass/{currentClass}")
-    public Student findStudentClass(@PathVariable String currentClass) {
+    public List<Student> findStudentClass(@PathVariable String currentClass) {
         return this.studentService.getStudentByClass(currentClass);
     }
 
